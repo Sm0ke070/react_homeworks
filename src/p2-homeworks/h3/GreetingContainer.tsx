@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {ChangeEvent, useState} from 'react'
 import Greeting from './Greeting'
 import {UserType} from "./HW3";
 import {futimes} from "fs";
@@ -17,24 +17,32 @@ const GreetingContainer: React.FC<GreetingContainerPropsType> = ({users, addUser
     const [name, setName] = useState<string>('') // need to fix any  --DONE
     const [error, setError] = useState<string>('') // need to fix any  --DONE
 
-    const setNameCallback = (e: any) => { // need to fix any
-        if (e.currentTarget.value !== ' ') {
-            addUserCallback(name)
-            setName(e.currentTarget.value)
+    const setNameCallback = (e: ChangeEvent<HTMLInputElement>) => { // need to fix any
+        const trimmedName = e.currentTarget.value.trim()
+        if (trimmedName) {
+            setName(trimmedName)
             setError('')
-        } else setError('ERROR')
+        } else {
+            setName('')
+            setError('ERROR')
+        }
     }
+    // if (e.currentTarget.value !== ' ') {
+    //     addUserCallback(name)
+    //     setName(e.currentTarget.value)
+    //     setError('')
+    // } else setError('ERROR')
+
 
     const addUser = () => {
-        if (name !== '') {
-            alert(`Hello ${name}!`)
-            setTotalUsers(totalUsers+1)
-        }// need to fix  --DONE
+        addUserCallback(name)
+        alert(`Hello ${name}!`)
         setName('')
-    }
 
-    const [totalUsers, setTotalUsers] = useState(0)
-     // need to fix  --DONE
+    }
+    const totalUsers = users.length
+    //const [totalUsers, setTotalUsers] = useState(0)
+    // need to fix  --DONE
 
     return (
         <Greeting
